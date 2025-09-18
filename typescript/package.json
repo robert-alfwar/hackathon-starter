@@ -10,6 +10,8 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "starter": "ts-node src/starter.ts",
+    "classify": "ts-node src/classification-starter.ts",
+    "classify:batch": "ts-node src/classification-starter.ts batch",
     "test": "mocha --exit --require ts-node/register --require source-map-support/register src/mocha/*.test.ts",
     "worker": "ts-node src/worker.ts",
     "worker:watch": "nodemon src/worker.ts"
@@ -24,11 +26,16 @@
     ]
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.32",
+    "@ai-sdk/openai-compatible": "^1.0.18",
     "@temporalio/activity": "^1.13.0",
     "@temporalio/client": "^1.13.0",
     "@temporalio/worker": "^1.13.0",
     "@temporalio/workflow": "^1.13.0",
-    "nanoid": "^5.1.5"
+    "ai": "^5.0.45",
+    "dotenv": "^17.2.2",
+    "nanoid": "^5.1.5",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",

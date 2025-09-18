@@ -1,9 +1,25 @@
 import { NativeConnection, Worker } from '@temporalio/worker';
+import * as dotenv from 'dotenv';
 
 import { createActivities } from './activities';
 import { TASK_QUEUE_NAME } from './shared';
+import { llmProvider } from './llm-config';
+
+// Load environment variables
+dotenv.config();
 
 async function run() {
+  // Validate LLM configuration before starting worker
+  const validation = llmProvider.validateConfiguration();
+  if (!validation.isValid) {
+    console.error('LLM configuration validation failed:');
+    validation.errors.forEach(error => console.error(`  - ${error}`));
+    process.exit(1);
+  }
+
+  console.log('LLM configuration validated successfully');
+  console.log(`Available providers: ${llmProvider.getAvailableProviders().join(', ')}`);
+  console.log(`Selected provider: ${process.env.LLM_PROVIDER || 'openai'}`);
   const connection = await NativeConnection.connect({
     address: process.env.TEMPORAL_ADDRESS,
     tls: process.env.TEMPORAL_TLS === 'true',
